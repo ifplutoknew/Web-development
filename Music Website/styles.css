@@ -40,7 +40,7 @@ html, body{
 }
 
 .main-header{
-    background-image: url("record.jpg");
+    background-image: url("images/record.jpg");
     background-size: cover;
     background-color: rgba(0,0,0,0);
     background-blend-mode: multiply;
