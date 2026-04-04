@@ -372,6 +372,14 @@ html, body{
     color: rgb(226, 81, 81);
 }
 
+form{
+    width: 60vw;
+    max-width: 500px;
+    min-width: 300px;
+    margin: 0 auto;
+    padding-bottom: 2em ;
+}
+
 .form-title{
     text-align: center;
     font-weight: bold;
@@ -382,7 +390,7 @@ html, body{
 }
 
 .form-field{
-    margin-left: 30%;   
+    margin:auto;   
 }
 
 fieldset{
@@ -398,12 +406,15 @@ fieldset{
     margin: .3em;
     font-weight: bold;
     color: white;
+    
 }
 
 .input-field{
-    margin: .2em;
+    margin: 10px 0 0 0;
     border: 1px solid rgb(52, 192, 192) ;
     border-radius: 2px;
+    width: 60%;
+    min-height: 2em;
 }
 
 .input-field:hover {
@@ -413,9 +424,10 @@ fieldset{
 
 
 .form-btn{
-    margin-left: 45%;
-    margin-bottom: 10px;
-    font-size: 14px;
+    display: block;
+    margin: 1em auto;
+    font-size: 1.2rem;
+
 }
 
 .about-list li{
