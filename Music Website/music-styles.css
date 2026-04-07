@@ -24,8 +24,13 @@ html, body{
     padding: .5em;
     color: white;
     text-decoration: none;
+    transition: 1s;
 }
 
+.nav a:hover{
+    background-color: rgba(255,190,0,0.8);
+    transform: scale(1.1);
+}
 .main-nav{
     text-align: center;
     font-size: 1.1em;
@@ -37,16 +42,14 @@ html, body{
     padding: 0 5%;
 }
 
-.nav a:hover{
-    background-color: rgba(255,255,255,1);
-}
+
 
 .main-header{
     background-image: url("images/record.jpg");
     background-size: cover;
     background-color: rgba(0,0,0,0);
     background-blend-mode: multiply;
-    padding-bottom: 16%;
+    padding-bottom: 12%;
     min-height: 20vh;
     height: 70vh;
 }
@@ -120,6 +123,14 @@ html, body{
 .footer-nav li{
     padding: 0 .5em;
     font-weight: bold;
+}
+
+.footer-nav li a{
+    color: rgb(187, 237, 106);
+    border: 2px solid whitesmoke;
+    border-radius: 4px;
+    margin: 6px;
+
 }
 
 .btn{
