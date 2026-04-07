@@ -47,6 +47,8 @@ html, body{
     background-color: rgba(0,0,0,0);
     background-blend-mode: multiply;
     padding-bottom: 12%;
+    min-height: 20vh;
+    height: 80vh;
 }
 
 .band-name{
@@ -128,12 +130,12 @@ html, body{
 }
 
 .btn-header{
-    margin: .5em 15% 2em 15%;
+    margin: .2em 15% 1em 15%;
     color: white;
     border: 2px solid skyblue;
     background-color: rgba(255,255,255,-1);
     border-radius: 0;
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: lighter;
     padding-left: 2em;
     padding-right: 2em;
@@ -148,11 +150,11 @@ html, body{
     display: block;
     margin: 0 auto;
     color: skyblue;
-    font-size: 4em;
+    font-size: 2em;
     border-radius: 50%;
     padding: 0;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     
 }
 
