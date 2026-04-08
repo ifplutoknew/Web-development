@@ -24,7 +24,7 @@ html, body{
     padding: .5em;
     color: white;
     text-decoration: none;
-    transition: 1s;
+    transition: 0.6s;
 }
 
 .nav a:hover{
@@ -105,7 +105,7 @@ html, body{
 }
 
 .main-footer{
-    background: url(images/mic.jpg);
+    background: linear-gradient(60deg,blueviolet,violet,darkviolet);
     color: white;
     padding: .25em 0;
 }
