@@ -8,7 +8,7 @@
 .header{
     min-height: 100vh;
     width: 100%;
-    background-image: url(images/harvard\ banner.webp);
+    background: url(images/harvard\ banner.webp);
     background-position: center;
     background-size: cover;
     position: relative;
@@ -23,7 +23,6 @@ nav{
 
 nav img{
     width: 150px;
-
 }
 
 .nav-links{
@@ -41,7 +40,8 @@ nav img{
 .nav-links ul li a{
     color: #fff;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .nav-links ul li::after{
@@ -60,12 +60,14 @@ nav img{
 
 .text-box{
     width: 90%;
-    color: #fff;
+    color: white;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
     text-align: center;
+    font-weight: 800;
+    text-shadow: 2px 0 2px red;
 }
 
 .text-box h1{
@@ -74,22 +76,22 @@ nav img{
 
 .text-box p{
     margin: 10px 0 40px;
-    font-size: 16px;
-    color: #fff;
-    font-weight: 800;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
 }
 
 .hero-btn{
     display: inline-block;
     text-decoration: none;
-    color: #fff;
+    color: white;
     border: 1px solid grey;
     padding: 12px 34px;
-    font-size: 13px;
+    font-size: 16px;
     background: transparent;
     position: relative;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 800;
 }
 
 .hero-btn:hover{
@@ -98,7 +100,7 @@ nav img{
     transition: 1s;
 }
 
-nav .fa{
+nav .bi{
     display: none;
 }
 
@@ -121,16 +123,20 @@ nav .fa{
     transition: 1s;
   }
 
-  nav .fa{
+  nav .bi{
     display: block;
     color: #fff;
-    margin: 10px;
-    font-size: 22px;
+    margin: 18px;
+    font-size: 20px;
     cursor: pointer;
+
   }
   .nav-links ul{
     padding: 30px;
   }
+  nav img{
+    width: 100px;
+}
 }
 
 /* ---- course ------ */
