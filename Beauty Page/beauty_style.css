@@ -7,8 +7,9 @@
 
 header{
     width: 100%;
-    min-height: 80vh;
-    background: pink;
+    height: 85vh;
+    background-color: pink;
+    background-image: url(images/cosm_1.jpg);
 }
 
 nav{
@@ -92,3 +93,4 @@ nav .bi{
     width: 100px;
 }
 }
+
