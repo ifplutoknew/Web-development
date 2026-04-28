@@ -10,6 +10,10 @@ header{
     height: 85vh;
     background-color: pink;
     background-image: url(images/cosm_1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
 }
 
 nav{
@@ -41,8 +45,8 @@ nav img{
 .nav-links ul li a{
     color: purple;
     text-decoration: none;
-    font-size: 15px;
-    font-weight: 900;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .nav-links ul li::after{
@@ -92,5 +96,52 @@ nav .bi{
   nav img{
     width: 100px;
 }
+}
+
+.text-box{
+    width: 90%;
+    color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.text-box h1{
+    font-size: 68px;
+    text-shadow: 2px 4px 0 #fff;
+}
+
+.text-box p{
+    margin: 18px auto;
+    font-size: 20px;
+    width: 70%;
+    color: purple;
+    font-weight: bold;
+    font-style: italic;
+    background-color: white;
+}
+
+.hero-btn{
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    background-color: violet;
+    border-radius: 20px;
+    padding: 12px 55px;
+    margin: 20px;
+    font-size: 18px;
+    position: relative;
+    cursor: pointer;
+    font-weight: 800;
+    transition: 1s;
+}
+
+.hero-btn:hover{
+    border: 1px solid purple;
+    transform: scale(1.1);
 }
 
