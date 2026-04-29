@@ -71,7 +71,7 @@ nav img{
 }
 
 .text-box h1{
-    font-size: 62px;
+    font-size: 4rem;
 }
 
 .text-box p{
@@ -362,4 +362,11 @@ footer h4{
     margin-bottom: 25px;
     margin-top: 20px;
     font-weight: 600;
+}
+
+.bi-star-fill{
+    color: rgb(244, 211, 25);
+    box-shadow: 3px 2px;
+    padding: 2px;
+    margin: 2px;
 }
