@@ -156,13 +156,13 @@ nav .bi{
     margin-top: 5%;
     display: flex;
     justify-content: space-between;
-    flex-wrap:nowrap;
+    flex-wrap: nowrap;
 }
 .product-col{
     flex-basis: 31%;
     background: #fff3f3;
     border-radius: 4px;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
     margin-left: 5px;
     padding: 26px 12px;
     box-sizing: border-box;
@@ -199,13 +199,17 @@ h2{
     font-size: 0.8em;
 }
 
+
 .product-button{
+    display: block;
     font-size: 14px;
     background-color: aqua;
     border-radius: 6px;
     border: none;
     padding: 2px;
     font-weight: 600;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 
