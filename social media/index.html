@@ -22,8 +22,8 @@
                 <img src="images/search.png" alt="">
                 <input type="text" placeholder="Search">
             </div>
-            <div class="nav-user-icon online">
-                <img src="images/profile-pic.jpeg" alt="">
+            <div class="nav-user-icon online" onclick="settingsMenuToggle()">
+                <img src="images/profile-pic.jpeg">
             </div>
         </div>
 <!---------------Settings Menu------------->
@@ -47,8 +47,21 @@
                 <hr>
                 <div class="settings-links">
                     <img src="images/settings.png" class="settings-icon">
-                    <a href="">Settings & Privacy <img src='' width="10px"></a>
+                    <a href="">Settings & Privacy <img src='images/right-arrow.png' width="10px"></a>
                 </div>
+                <div class="settings-links">
+                    <img src="images/help-web-button.png" class="settings-icon">
+                    <a href="">Help & Support <img src='images/right-arrow.png' width="10px"></a>
+                </div>
+                <div class="settings-links">
+                    <img src="images/accessibility.png" class="settings-icon">
+                    <a href="">Display & Accessibility <img src='images/right-arrow.png' width="10px"></a>
+                </div>
+                <div class="settings-links">
+                    <img src="images/logout.png" class="settings-icon">
+                    <a href="">Logout <img src='images/right-arrow.png' width="10px"></a>
+                </div>
+
 
             </div> 
         </div>
@@ -237,6 +250,6 @@
     <div class="footer">
         <p>Copyright 2025 - EasyWeb Youtube Channel</p>
     </div>
-
+<script src="script.js"></script>
 </body>
 </html>
