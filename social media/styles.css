@@ -682,3 +682,15 @@ nav{
     margin: 24px 0;
 }
 
+.profile-intro ul li{
+    list-style: none;
+    font-size: 15px;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.profile-intro ul li img{
+    width: 26px;
+    margin-right:10px ;
+}
