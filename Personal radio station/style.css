@@ -9,7 +9,7 @@ body{
     display: flex;
     justify-content:center;
     align-items: center;
-    background: #111;
+    background: rgb(6, 139, 139);
     color: white ;
     font-family: Arial, sans-serif;
 }
@@ -25,8 +25,12 @@ body{
 
 h1{
   text-align: center;
+  font-weight: bold;
   margin-bottom: 25px;
   letter-spacing: 4px;
+  color: aqua;
+  font-size: 40px;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .cover{
@@ -107,7 +111,10 @@ h1{
 
 h3{
     text-align:center;
+    font-size: 22px;
     margin-bottom: 15px;
+    color: greenyellow;
+    font-weight: bold;
 }
 
 .song{
@@ -125,6 +132,11 @@ h3{
 
 .song:active{
     background: #444;
+}
+
+#playlist{
+    color: yellow;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 

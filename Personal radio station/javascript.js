@@ -80,8 +80,10 @@ const songs = [
 
 const presenterAudio = [
 
-    "presenter/Spider-Man Saves the Day Radio Caller Praises Hero! #shorts - GamingGrid.mp3",
-    "presenter/Spider-Man (Hot Take) Danika Hart Postcast Is Fun Listening to🤔  #shorts #marvelstudios #spiderman2 - Raq9ine (1).mp3"
+    "presenter/Spider-Man (Hot Take) Danika Hart Postcast Is Fun Listening to🤔  #shorts #marvelstudios #spiderman2 - Raq9ine (1).mp3",
+    "presenter/Danika Hart Still Crushing On Spider-Man (Miles)  Marvel’s Spider-Man 2 - Sakai Hoplite Vanguard (Sakai Clips).mp3",
+    "presenter/Spider Man Miles Morales PS5 Gameplay - Jameson Loses Debate With Danika About Spider Man - calloftreyarch.mp3",
+    "presenter/Marvel's Spider-Man 2 Danikast Episode 6 Danika Hart Has Questions About New Black Suit Spider-Man - MirageOfShellz.mp3"
 
 ];
 
@@ -194,13 +196,13 @@ function playPresenter() {
     );
 
     songTitle.textContent =
-        "Your Radio Presenter";
+        "Danika Hart";
 
     songArtist.textContent =
-        "You're listening to My Radio";
+        "Revolution of New York";
 
     cover.style.backgroundImage =
-        "url('covers/presenter.jpg')";
+        "url('covers/Danika_Hart.webp')";
 
     audio.play()
         .then(() => {
@@ -484,6 +486,6 @@ function updatePlaylist() {
 // INITIALIZE
 // ============================================
 
-audio.volume = 0.7;
+audio.volume = 0.9;
 
 loadSong(0);
