@@ -30,19 +30,20 @@ h1{
 }
 
 .cover{
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto 20px;
+    background-size: cover;
+    background-position: center;
+
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 60px;
 }
 
-.cover img{
-    width: 120px;
-    border-radius: 50%;
-}
+
 
 #songTitle{
     margin-bottom:8px;
@@ -125,3 +126,5 @@ h3{
 .song:active{
     background: #444;
 }
+
+

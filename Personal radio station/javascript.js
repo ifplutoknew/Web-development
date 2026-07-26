@@ -19,121 +19,324 @@ const durationDisplay =
 const playlistElement =
     document.getElementById("playlist");
 
-const cover = document.querySelector('.cover');
+const cover =
+    document.querySelector(".cover");
 
 
-// ======================================
-// YOUR RADIO PLAYLIST
-// ======================================
+// ============================================
+// SONGS
+// ============================================
 
-const playlist = [
+const songs = [
 
     {
         title: "Bloodstream",
         artist: "Alyssa Grace",
-        file: "audio/alyssa_grace_bloodstream_lyrics_mp3_72811.mp3"
+        audio: "audio/alyssa_grace_bloodstream_lyrics_mp3_72811.mp3",
+        cover:"covers/bloodstream.jpeg"
     },
 
     {
         title: "Heather",
         artist: "Conan Gray",
-        file: "audio/conangray_heather_lyrics_mp3_70676.mp3"
+        audio: "audio/conangray_heather_lyrics_mp3_70676.mp3",
+        cover: "covers/Heather.jpeg"
     },
 
     {
         title: "Here with me",
         artist: "D4vd",
-        file: "audio/d4vd_here_with_me_lyrics_mp3_61074.mp3"
+        audio: "audio/d4vd_here_with_me_lyrics_mp3_61074.mp3",
+        cover: "covers/HereWithMe.jpeg"
     },
 
     {
         title: "Willing and Able",
         artist: "Noah Kahan",
-        file: "audio/noah_kahan_willing_and_able_official_lyric_video_mp3_72729.mp3"
+        audio: "audio/noah_kahan_willing_and_able_official_lyric_video_mp3_72729.mp3",
+        cover: "covers/WillingAndAble.jpeg"
+    },
+
+    {
+        title: "K.",
+        artist: "Cigarettes After Sex",
+        audio:"audio/K. - Cigarettes After Sex - Cigarettes After Sex.mp3",
+        cover: "covers/K.jpeg"
+    },
+
+    {
+        title:"Cardigan",
+        artist:"Taylor Swift",
+        audio:"audio/taylor_swift_cardigan_official_music_video_mp3_5084.mp3",
+        cover: "covers/Cardigan.jpeg"
     }
 
 ];
 
 
-// Current song
+// ============================================
+// PRESENTER AUDIO
+// ============================================
+
+const presenterAudio = [
+
+    "presenter/Spider-Man Saves the Day Radio Caller Praises Hero! #shorts - GamingGrid.mp3",
+    "presenter/Spider-Man (Hot Take) Danika Hart Postcast Is Fun Listening to🤔  #shorts #marvelstudios #spiderman2 - Raq9ine (1).mp3"
+
+];
+
+
+// ============================================
+// RADIO STATE
+// ============================================
+
 let currentSong = 0;
 
+let songsPlayed = 0;
 
-// ======================================
+let playingPresenter = false;
+
+let radioStarted = false;
+
+let presenterIndex = 0;
+
+
+// ============================================
+// HELPERS
+// ============================================
+
+function encodeAudioPath(path) {
+
+    return path
+        .split("/")
+        .map(segment => encodeURIComponent(segment))
+        .join("/");
+
+}
+
+
+// ============================================
 // LOAD SONG
-// ======================================
+// ============================================
 
 function loadSong(index) {
 
     currentSong = index;
 
-    const song = playlist[currentSong];
+    const song = songs[currentSong];
 
-    audio.src = song.file;
+    audio.src = encodeAudioPath(song.audio);
 
     songTitle.textContent = song.title;
 
     songArtist.textContent = song.artist;
 
-    updatePlaylist();
+    cover.style.backgroundImage =
+        `url("${song.cover}")`;
 
+    updatePlaylist();
 }
 
 
-// ======================================
-// PLAY
-// ======================================
+// ============================================
+// PLAY SONG
+// ============================================
 
 function playSong() {
 
-    audio.play();
+    playingPresenter = false;
 
-    playButton.textContent = "❚❚";
+    audio.src = encodeAudioPath(songs[currentSong].audio);
+
+    songTitle.textContent =
+        songs[currentSong].title;
+
+    songArtist.textContent =
+        songs[currentSong].artist;
+
+    cover.style.backgroundImage =
+        `url("${songs[currentSong].cover}")`;
+
+    audio.play()
+        .then(() => {
+
+            playButton.textContent = "❚❚";
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Could not play song:",
+                error
+            );
+
+        });
 
 }
 
 
-// ======================================
-// PAUSE
-// ======================================
+// ============================================
+// PLAY PRESENTER
+// ============================================
 
-function pauseSong() {
+function playPresenter() {
 
-    audio.pause();
+    if (presenterIndex >= presenterAudio.length) {
 
-    playButton.textContent = "▶";
+        presenterIndex = 0;
+
+    }
+
+    playingPresenter = true;
+
+    audio.src = encodeAudioPath(
+        presenterAudio[presenterIndex]
+    );
+
+    songTitle.textContent =
+        "Your Radio Presenter";
+
+    songArtist.textContent =
+        "You're listening to My Radio";
+
+    cover.style.backgroundImage =
+        "url('covers/presenter.jpg')";
+
+    audio.play()
+        .then(() => {
+
+            playButton.textContent = "❚❚";
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Could not play presenter:",
+                error
+            );
+
+        });
+
+    presenterIndex++;
 
 }
 
 
-// ======================================
+// ============================================
+// START RADIO
+// ============================================
+
+function startRadio() {
+
+    if (radioStarted) {
+
+        playSong();
+
+        return;
+
+    }
+
+    radioStarted = true;
+
+    // First thing the listener hears
+    // is the presenter intro.
+
+    presenterIndex = 0;
+
+    playPresenter();
+
+}
+
+
+// ============================================
 // PLAY / PAUSE
-// ======================================
+// ============================================
 
 playButton.addEventListener("click", () => {
 
     if (audio.paused) {
 
-        playSong();
+        if (!radioStarted) {
+
+            startRadio();
+
+        } else {
+
+            audio.play()
+                .then(() => {
+
+                    playButton.textContent = "❚❚";
+
+                });
+
+        }
 
     } else {
 
-        pauseSong();
+        audio.pause();
+
+        playButton.textContent = "▶";
 
     }
 
 });
 
 
-// ======================================
-// NEXT
-// ======================================
+// ============================================
+// AUDIO FINISHED
+// ============================================
 
-nextButton.addEventListener("click", () => {
+audio.addEventListener("ended", () => {
+
+    // ========================================
+    // PRESENTER FINISHED
+    // ========================================
+
+    if (playingPresenter) {
+
+        playingPresenter = false;
+
+        loadSong(currentSong);
+
+        playSong();
+
+        return;
+
+    }
+
+
+    // ========================================
+    // SONG FINISHED
+    // ========================================
+
+    songsPlayed++;
+
+
+    // After every TWO songs
+    // play presenter interruption.
+
+    if (songsPlayed % 2 === 0) {
+
+        playPresenter();
+
+    } else {
+
+        playNextSong();
+
+    }
+
+});
+
+
+// ============================================
+// NEXT SONG
+// ============================================
+
+function playNextSong() {
 
     currentSong++;
 
-    if (currentSong >= playlist.length) {
+    if (currentSong >= songs.length) {
 
         currentSong = 0;
 
@@ -143,12 +346,23 @@ nextButton.addEventListener("click", () => {
 
     playSong();
 
+}
+
+
+// ============================================
+// NEXT BUTTON
+// ============================================
+
+nextButton.addEventListener("click", () => {
+
+    playNextSong();
+
 });
 
 
-// ======================================
-// PREVIOUS
-// ======================================
+// ============================================
+// PREVIOUS BUTTON
+// ============================================
 
 previousButton.addEventListener("click", () => {
 
@@ -156,7 +370,7 @@ previousButton.addEventListener("click", () => {
 
     if (currentSong < 0) {
 
-        currentSong = playlist.length - 1;
+        currentSong = songs.length - 1;
 
     }
 
@@ -167,30 +381,9 @@ previousButton.addEventListener("click", () => {
 });
 
 
-// ======================================
-// AUTOMATICALLY PLAY NEXT SONG
-// ======================================
-
-audio.addEventListener("ended", () => {
-
-    currentSong++;
-
-    if (currentSong >= playlist.length) {
-
-        currentSong = 0;
-
-    }
-
-    loadSong(currentSong);
-
-    playSong();
-
-});
-
-
-// ======================================
-// PROGRESS BAR
-// ======================================
+// ============================================
+// PROGRESS
+// ============================================
 
 audio.addEventListener("timeupdate", () => {
 
@@ -216,9 +409,9 @@ progress.addEventListener("input", () => {
 });
 
 
-// ======================================
+// ============================================
 // VOLUME
-// ======================================
+// ============================================
 
 volume.addEventListener("input", () => {
 
@@ -227,13 +420,14 @@ volume.addEventListener("input", () => {
 });
 
 
-// ======================================
+// ============================================
 // FORMAT TIME
-// ======================================
+// ============================================
 
 function formatTime(seconds) {
 
-    const minutes = Math.floor(seconds / 60);
+    const minutes =
+        Math.floor(seconds / 60);
 
     const remainingSeconds =
         Math.floor(seconds % 60);
@@ -245,15 +439,15 @@ function formatTime(seconds) {
 }
 
 
-// ======================================
-// DISPLAY PLAYLIST
-// ======================================
+// ============================================
+// PLAYLIST DISPLAY
+// ============================================
 
 function updatePlaylist() {
 
     playlistElement.innerHTML = "";
 
-    playlist.forEach((song, index) => {
+    songs.forEach((song, index) => {
 
         const element =
             document.createElement("div");
@@ -271,7 +465,9 @@ function updatePlaylist() {
 
         element.addEventListener("click", () => {
 
-            loadSong(index);
+            currentSong = index;
+
+            loadSong(currentSong);
 
             playSong();
 
@@ -284,9 +480,9 @@ function updatePlaylist() {
 }
 
 
-// ======================================
-// INITIALIZE RADIO
-// ======================================
+// ============================================
+// INITIALIZE
+// ============================================
 
 audio.volume = 0.7;
 
