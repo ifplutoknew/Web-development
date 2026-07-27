@@ -22,9 +22,10 @@ const playlistElement =
 const cover =
     document.querySelector(".cover");
 
+const channelButtons = document.querySelectorAll(".channel");
 
 // ============================================
-// SONGS
+// MUSIC
 // ============================================
 
 const songs = [
@@ -33,7 +34,7 @@ const songs = [
         title: "Bloodstream",
         artist: "Alyssa Grace",
         audio: "audio/alyssa_grace_bloodstream_lyrics_mp3_72811.mp3",
-        cover:"covers/bloodstream.jpeg"
+        cover: "covers/bloodstream.jpeg"
     },
 
     {
@@ -60,19 +61,18 @@ const songs = [
     {
         title: "K.",
         artist: "Cigarettes After Sex",
-        audio:"audio/K. - Cigarettes After Sex - Cigarettes After Sex.mp3",
+        audio: "audio/K. - Cigarettes After Sex - Cigarettes After Sex.mp3",
         cover: "covers/K.jpeg"
     },
 
     {
-        title:"Cardigan",
-        artist:"Taylor Swift",
-        audio:"audio/taylor_swift_cardigan_official_music_video_mp3_5084.mp3",
+        title: "Cardigan",
+        artist: "Taylor Swift",
+        audio: "audio/taylor_swift_cardigan_official_music_video_mp3_5084.mp3",
         cover: "covers/Cardigan.jpeg"
     }
 
 ];
-
 
 // ============================================
 // PRESENTER AUDIO
@@ -87,21 +87,46 @@ const presenterAudio = [
 
 ];
 
+// ============================================
+// PODCASTS
+// ============================================
+
+const podcasts = [
+
+    {
+        title: "SpiderRadio Episode 1",
+        artist: "Danika Hart",
+        audio: "podcasts/All Danika Hart Podcasts  Spider-Man 2  4k 60fps - KyleVX.mp3",
+        cover: "covers/Danika_Hart.webp"
+    },
+
+    {
+        title: "Podcast Episode 2",
+        artist: "Your Name",
+        audio: "",
+        cover: "covers/Danika_Hart.webp"
+    },
+
+    {
+        title: "Podcast Episode 3",
+        artist: "Your Name",
+        audio: "",
+        cover: "covers/Danika_Hart.webp"
+    }
+
+];
 
 // ============================================
 // RADIO STATE
 // ============================================
 
+let currentChannel = "music";
 let currentSong = 0;
-
+let currentPodcastIndex = 0;
 let songsPlayed = 0;
-
 let playingPresenter = false;
-
 let radioStarted = false;
-
 let presenterIndex = 0;
-
 
 // ============================================
 // HELPERS
@@ -116,6 +141,25 @@ function encodeAudioPath(path) {
 
 }
 
+function updateChannelButtons() {
+
+    channelButtons.forEach((button) => {
+
+        const isActive = button.dataset.channel === currentChannel;
+
+        button.classList.toggle("active", isActive);
+
+    });
+
+}
+
+function getActiveItems() {
+
+    return currentChannel === "podcast"
+        ? podcasts
+        : songs;
+
+}
 
 // ============================================
 // LOAD SONG
@@ -127,10 +171,11 @@ function loadSong(index) {
 
     const song = songs[currentSong];
 
+    audio.pause();
+    audio.currentTime = 0;
     audio.src = encodeAudioPath(song.audio);
 
     songTitle.textContent = song.title;
-
     songArtist.textContent = song.artist;
 
     cover.style.backgroundImage =
@@ -138,7 +183,6 @@ function loadSong(index) {
 
     updatePlaylist();
 }
-
 
 // ============================================
 // PLAY SONG
@@ -148,16 +192,15 @@ function playSong() {
 
     playingPresenter = false;
 
-    audio.src = encodeAudioPath(songs[currentSong].audio);
+    const song = songs[currentSong];
 
-    songTitle.textContent =
-        songs[currentSong].title;
+    audio.src = encodeAudioPath(song.audio);
 
-    songArtist.textContent =
-        songs[currentSong].artist;
+    songTitle.textContent = song.title;
+    songArtist.textContent = song.artist;
 
     cover.style.backgroundImage =
-        `url("${songs[currentSong].cover}")`;
+        `url("${song.cover}")`;
 
     audio.play()
         .then(() => {
@@ -175,7 +218,6 @@ function playSong() {
         });
 
 }
-
 
 // ============================================
 // PLAY PRESENTER
@@ -195,11 +237,8 @@ function playPresenter() {
         presenterAudio[presenterIndex]
     );
 
-    songTitle.textContent =
-        "Danika Hart";
-
-    songArtist.textContent =
-        "Revolution of New York";
+    songTitle.textContent = "Danika Hart";
+    songArtist.textContent = "Revolution of New York";
 
     cover.style.backgroundImage =
         "url('covers/Danika_Hart.webp')";
@@ -223,6 +262,92 @@ function playPresenter() {
 
 }
 
+// ============================================
+// LOAD PODCAST
+// ============================================
+
+function loadPodcast(index) {
+
+    currentPodcastIndex = index;
+
+    const podcast = podcasts[currentPodcastIndex];
+
+    audio.pause();
+    audio.currentTime = 0;
+    audio.src = podcast.audio ? encodeAudioPath(podcast.audio) : "";
+
+    songTitle.textContent = podcast.title;
+    songArtist.textContent = podcast.artist;
+
+    cover.style.backgroundImage =
+        `url("${podcast.cover}")`;
+
+    updatePlaylist();
+}
+
+// ============================================
+// PLAY PODCAST
+// ============================================
+
+function playPodcast() {
+
+    const podcast = podcasts[currentPodcastIndex];
+
+    if (!podcast.audio) {
+
+        playButton.textContent = "▶";
+        return;
+
+    }
+
+    audio.src = encodeAudioPath(podcast.audio);
+
+    audio.play()
+        .then(() => {
+
+            playButton.textContent = "❚❚";
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Could not play podcast:",
+                error
+            );
+
+        });
+
+}
+
+// ============================================
+// SWITCH CHANNEL
+// ============================================
+
+function switchChannel(channelName) {
+
+    currentChannel = channelName;
+
+    if (channelName === "podcast") {
+
+        currentPodcastIndex = 0;
+        loadPodcast(0);
+        audio.pause();
+        playButton.textContent = "▶";
+        radioStarted = false;
+
+    } else {
+
+        songsPlayed = 0;
+        currentSong = 0;
+        loadSong(0);
+        radioStarted = false;
+        playButton.textContent = "▶";
+
+    }
+
+    updateChannelButtons();
+
+}
 
 // ============================================
 // START RADIO
@@ -230,25 +355,26 @@ function playPresenter() {
 
 function startRadio() {
 
+    if (currentChannel === "podcast") {
+
+        radioStarted = true;
+        playPodcast();
+        return;
+
+    }
+
     if (radioStarted) {
 
         playSong();
-
         return;
 
     }
 
     radioStarted = true;
-
-    // First thing the listener hears
-    // is the presenter intro.
-
     presenterIndex = 0;
-
     playPresenter();
 
 }
-
 
 // ============================================
 // PLAY / PAUSE
@@ -283,39 +409,30 @@ playButton.addEventListener("click", () => {
 
 });
 
-
 // ============================================
 // AUDIO FINISHED
 // ============================================
 
 audio.addEventListener("ended", () => {
 
-    // ========================================
-    // PRESENTER FINISHED
-    // ========================================
+    if (currentChannel === "podcast") {
+
+        playNextPodcast();
+        return;
+
+    }
 
     if (playingPresenter) {
 
         playingPresenter = false;
 
         loadSong(currentSong);
-
         playSong();
-
         return;
 
     }
 
-
-    // ========================================
-    // SONG FINISHED
-    // ========================================
-
     songsPlayed++;
-
-
-    // After every TWO songs
-    // play presenter interruption.
 
     if (songsPlayed % 2 === 0) {
 
@@ -328,7 +445,6 @@ audio.addEventListener("ended", () => {
     }
 
 });
-
 
 // ============================================
 // NEXT SONG
@@ -345,11 +461,28 @@ function playNextSong() {
     }
 
     loadSong(currentSong);
-
     playSong();
 
 }
 
+// ============================================
+// NEXT PODCAST
+// ============================================
+
+function playNextPodcast() {
+
+    currentPodcastIndex++;
+
+    if (currentPodcastIndex >= podcasts.length) {
+
+        currentPodcastIndex = 0;
+
+    }
+
+    loadPodcast(currentPodcastIndex);
+    playPodcast();
+
+}
 
 // ============================================
 // NEXT BUTTON
@@ -357,10 +490,17 @@ function playNextSong() {
 
 nextButton.addEventListener("click", () => {
 
-    playNextSong();
+    if (currentChannel === "podcast") {
+
+        playNextPodcast();
+
+    } else {
+
+        playNextSong();
+
+    }
 
 });
-
 
 // ============================================
 // PREVIOUS BUTTON
@@ -368,20 +508,49 @@ nextButton.addEventListener("click", () => {
 
 previousButton.addEventListener("click", () => {
 
-    currentSong--;
+    if (currentChannel === "podcast") {
 
-    if (currentSong < 0) {
+        currentPodcastIndex--;
 
-        currentSong = songs.length - 1;
+        if (currentPodcastIndex < 0) {
+
+            currentPodcastIndex = podcasts.length - 1;
+
+        }
+
+        loadPodcast(currentPodcastIndex);
+        playPodcast();
+
+    } else {
+
+        currentSong--;
+
+        if (currentSong < 0) {
+
+            currentSong = songs.length - 1;
+
+        }
+
+        loadSong(currentSong);
+        playSong();
 
     }
 
-    loadSong(currentSong);
-
-    playSong();
-
 });
 
+// ============================================
+// CHANNEL BUTTONS
+// ============================================
+
+channelButtons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        switchChannel(button.dataset.channel);
+
+    });
+
+});
 
 // ============================================
 // PROGRESS
@@ -403,13 +572,11 @@ audio.addEventListener("timeupdate", () => {
 
 });
 
-
 progress.addEventListener("input", () => {
 
     audio.currentTime = progress.value;
 
 });
-
 
 // ============================================
 // VOLUME
@@ -420,7 +587,6 @@ volume.addEventListener("input", () => {
     audio.volume = volume.value;
 
 });
-
 
 // ============================================
 // FORMAT TIME
@@ -440,7 +606,6 @@ function formatTime(seconds) {
 
 }
 
-
 // ============================================
 // PLAYLIST DISPLAY
 // ============================================
@@ -449,7 +614,9 @@ function updatePlaylist() {
 
     playlistElement.innerHTML = "";
 
-    songs.forEach((song, index) => {
+    const items = getActiveItems();
+
+    items.forEach((item, index) => {
 
         const element =
             document.createElement("div");
@@ -457,9 +624,17 @@ function updatePlaylist() {
         element.classList.add("song");
 
         element.textContent =
-            `${song.title} — ${song.artist}`;
+            `${item.title} — ${item.artist}`;
 
-        if (index === currentSong) {
+        if (currentChannel === "music") {
+
+            if (index === currentSong) {
+
+                element.classList.add("active");
+
+            }
+
+        } else if (index === currentPodcastIndex) {
 
             element.classList.add("active");
 
@@ -467,11 +642,29 @@ function updatePlaylist() {
 
         element.addEventListener("click", () => {
 
-            currentSong = index;
+            if (currentChannel === "podcast") {
 
-            loadSong(currentSong);
+                currentPodcastIndex = index;
+                loadPodcast(currentPodcastIndex);
 
-            playSong();
+                if (radioStarted) {
+
+                    playPodcast();
+
+                }
+
+            } else {
+
+                currentSong = index;
+                loadSong(currentSong);
+
+                if (radioStarted) {
+
+                    playSong();
+
+                }
+
+            }
 
         });
 
@@ -481,11 +674,10 @@ function updatePlaylist() {
 
 }
 
-
 // ============================================
 // INITIALIZE
 // ============================================
 
 audio.volume = 0.9;
-
+updateChannelButtons();
 loadSong(0);
