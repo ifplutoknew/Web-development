@@ -101,10 +101,10 @@ const podcasts = [
     },
 
     {
-        title: "Podcast Episode 2",
-        artist: "Your Name",
-        audio: "",
-        cover: "covers/Danika_Hart.webp"
+        title: "SpiderRadio Episode 2",
+        artist: "JJ Jameson",
+        audio: "podcasts/Marvel's Spider-Man 2 JJJ Podcast Episodes - All JJJ Podcast I Found In Game - MirageOfShellz.mp3",
+        cover: "covers/J._Jonah_Jameson.webp"
     },
 
     {
