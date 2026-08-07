@@ -57,6 +57,12 @@ window.onload = function(){
     context = board.getContext('2d');  //used for drawing on the board
 
     loadImages();
+    loadMap();
+   // console.log(walls.size);
+   // console.log(foods.size);
+   // console.log(ghosts.size);
+   update();
+   document.addEventListener('keyup', movePacman);
 }
 
 
@@ -102,8 +108,85 @@ function loadMap(){
                 const wall =  new Block(wallImage, x, y, tileSize, tileSize);
                 walls.add(wall);
             }
+            else if (tileMapChar == 'b'){
+                //blue Ghost
+                const ghost = new Block(blueGhostImage, x, y, tileSize, tileSize);
+                ghosts.add(ghost);
+            }
+            else if (tileMapChar == 'o'){
+                //orange Ghost
+                const ghost = new Block(orangeGhostImage, x, y, tileSize, tileSize);
+                ghosts.add(ghost);
+            }
+            else if (tileMapChar == 'p'){
+                //pink Ghost
+                const ghost = new Block(pinkGhostImage, x, y, tileSize, tileSize);
+                ghosts.add(ghost);
+            }
+            else if (tileMapChar == 'r'){
+                //red Ghost
+                const ghost = new Block(redGhostImage, x, y, tileSize, tileSize);
+                ghosts.add(ghost);
+            }
+            else if (tileMapChar == 'P'){
+                //pacman
+                pacman = new Block(pacmanRightImage, x, y, tileSize, tileSize);
+            }
+            else if (tileMapChar == ' '){
+                //empty is food
+                const food = new Block(null, x + 14, y + 14, 4, 4);  //shifting 14 coordinates from axis of 32px block (32-4=28/2=14)
+                foods.add(food);
+            }
         }
     }
+}
+
+function update(){
+    move();
+    draw();
+    setTimeout(update, 50);  //recurssive
+    //setInterval (func, number of times), setTimeout (func, when called), requestAnimationFrame (dependent on computer )
+    // 20 FPS  1 s-> 1000ms/20 = 50ms
+    // move draw | move draw| move draw ( you can have frames overlapping in which setInterval can call another frame while the last one is still running)
+    // with setTimeout, it prevents overlap, each recurssion finishes before the next one starts
+    // velocity y = tilesize/4 
+}
+
+function draw(){
+    context.clearRect(0, 0, board.width, board.height);
+    context.drawImage(pacman.image, pacman.x, pacman.y, pacman.width, pacman.height);
+    for (let ghost of ghosts.values()){
+        context.drawImage(ghost.image, ghost.x, ghost.y, ghost.width, ghost.height);
+    }
+    for (let wall of walls.values()){
+        context.drawImage(wall.image, wall.x, wall.y, wall.width, wall.height);
+    }
+    context.fillStyle = 'white';
+    for (let food of foods.values()){
+        context.fillRect(food.x, food.y, food.width, food.height);
+    }
+}
+
+function move(){
+    pacman.x += pacman.velocityX;
+    pacman.y += pacman.velocityY;
+}
+
+function movePacmana(e){
+     if (e.code == 'ArrowUp' || e.code == 'KeyW'){
+        pacman.updateDirection('U');
+     }
+    else if (e.code == 'ArrowDown' || e.code == 'KeyS'){
+        pacman.updateDirection('D');
+     }
+    else if (e.code == 'ArrowLeft' || e.code == 'KeyA'){
+        pacman.updateDirection('L');
+     }
+    else if (e.code == 'ArrowRight' || e.code == 'KeyD'){
+        pacman.updateDirection('R');
+     }
+    
+
 }
 
 class Block {
@@ -117,5 +200,32 @@ class Block {
         this.startX = x;
         this.startY = y;
 
+        this.direction = 'R';
+        this.velocityX = 0;
+        this.velocityY = 0;
+    }
+
+    updateDirection(direction){
+        this.direction = direction;
+        this.updateVelocity();
+    }
+
+    updateVelocity(){
+        if (this.direction == 'U'){  //ipward direction
+            this.velocityX = 0;
+            this.velocityY = -tileSize/4;
+        }
+        else if (this.direction == 'D'){ //downward direction
+            this.velocityX = 0;
+            this.velocityY = tileSize/4;
+        }
+        else if (this.direction == 'L'){ //leftward direction
+            this.velocityX = -tileSize/4;
+            this.velocityY = 0;
+        }
+        else if (this.direction == 'R'){ //rightward direction
+            this.velocityX = tileSize/4;
+            this.velocityY = 0;
+        }
     }
 }
