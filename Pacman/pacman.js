@@ -238,6 +238,12 @@ function move(){
         }
     }
     foods.delete(foodEaten);
+
+    //next level
+    if (foods.size == 0){
+        loadMap();
+        resetPositions();
+    }
 }
 
 function movePacman(e){
