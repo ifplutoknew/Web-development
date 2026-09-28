@@ -31,10 +31,10 @@ const channelButtons = document.querySelectorAll(".channel");
 const songs = [
 
     {
-        title: "Bloodstream",
-        artist: "Alyssa Grace",
-        audio: "audio/alyssa_grace_bloodstream_lyrics_mp3_72811.mp3",
-        cover: "covers/bloodstream.jpeg"
+        title: "Sienna",
+        artist: "The marias",
+        audio: "audio/the_marias_sienna_visualizer_mp3_45112.mp3",
+        cover: "covers/Sienna.jpeg"
     },
 
     {
@@ -70,6 +70,13 @@ const songs = [
         artist: "Taylor Swift",
         audio: "audio/taylor_swift_cardigan_official_music_video_mp3_5084.mp3",
         cover: "covers/Cardigan.jpeg"
+    },
+
+    {
+        title:"IVY",
+        artist: "Frank Ocean",
+        audio: "audio/frank_ocean_ivy_mp3_72943.mp3",
+        cover: "covers/frank_ocean.jpg"
     }
 
 ];
