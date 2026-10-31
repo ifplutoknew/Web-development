@@ -25,18 +25,27 @@
         </div>
 
         <div class="controls">
-            <button id="previous"><img src="images/rewind-button.png"></button>
-            <button id="play"><img src="images/play-button.png"></button>
-            <button id="next"><img src="images/forward-button.png"></button>
+            <button id="previous" type="button" aria-label="Previous track"><img src="images/rewind-button.png" alt=""></button>
+            <button id="play" type="button" aria-label="Play or pause"><img src="images/play-button.png" alt=""></button>
+            <button id="next" type="button" aria-label="Next track"><img src="images/forward-button.png" alt=""></button>
+        </div>
+
+        <div class="playback-options">
+            <button id="shuffle" type="button" aria-pressed="false">Shuffle</button>
+            <button id="repeat" type="button" aria-pressed="false">Repeat</button>
         </div>
 
         <div class="volume">
-            <img src="images/volume.png">
-            <input type="range" id="volume" min="0" max="1" value="0.7" step="0.01">
+            <img src="images/volume.png" alt="Volume">
+            <input type="range" id="volume" aria-label="Volume" min="0" max="1" value="0.7" step="0.01">
         </div>
 
+        <h3>Up next</h3>
+        <div id="upNext"></div>
         <h3>Playlist</h3>
         <div id="playlist"></div>
+        <h3>Recently played</h3>
+        <div id="recentlyPlayed"></div>
         <audio id="audio"></audio>
     </div>
     <script src="javascript.js"></script>

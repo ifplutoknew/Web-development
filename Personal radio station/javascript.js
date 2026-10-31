@@ -23,6 +23,10 @@ const cover =
     document.querySelector(".cover");
 
 const channelButtons = document.querySelectorAll(".channel");
+const shuffleButton = document.getElementById("shuffle");
+const repeatButton = document.getElementById("repeat");
+const upNextElement = document.getElementById("upNext");
+const recentlyPlayedElement = document.getElementById("recentlyPlayed");
 
 // ============================================
 // MUSIC
@@ -78,7 +82,6 @@ const songs = [
         audio: "audio/frank_ocean_ivy_mp3_72943.mp3",
         cover: "covers/frank_ocean.jpg"
     }
-
 ];
 
 // ============================================
@@ -134,6 +137,12 @@ let songsPlayed = 0;
 let playingPresenter = false;
 let radioStarted = false;
 let presenterIndex = 0;
+let shuffleEnabled = false;
+let repeatEnabled = false;
+let recentlyPlayed = JSON.parse(
+    localStorage.getItem("myRadioRecentlyPlayed") || "[]"
+);
+let upcomingIndexes = [];
 
 // ============================================
 // HELPERS
@@ -167,6 +176,110 @@ function getActiveItems() {
         : songs;
 
 }
+
+function getCurrentIndex() {
+    return currentChannel === "podcast"
+        ? currentPodcastIndex
+        : currentSong;
+}
+
+function recordRecentlyPlayed(item) {
+    if (!item) return;
+
+    recentlyPlayed = [
+        {
+            title: item.title,
+            artist: item.artist,
+            channel: currentChannel
+        },
+        ...recentlyPlayed.filter((entry) =>
+            !(entry.title === item.title && entry.channel === currentChannel)
+        )
+    ].slice(0, 5);
+
+    localStorage.setItem(
+        "myRadioRecentlyPlayed",
+        JSON.stringify(recentlyPlayed)
+    );
+    updateRecentlyPlayed();
+}
+
+function updateRecentlyPlayed() {
+    recentlyPlayedElement.innerHTML = "";
+
+    recentlyPlayed.forEach((item) => {
+        const element = document.createElement("div");
+        element.className = "queue-item";
+        element.textContent = item.title;
+
+        const artist = document.createElement("span");
+        artist.textContent = `${item.artist} · ${item.channel}`;
+        element.appendChild(artist);
+        recentlyPlayedElement.appendChild(element);
+    });
+}
+
+function updateUpNext() {
+    upNextElement.innerHTML = "";
+    upcomingIndexes = [];
+
+    const items = getActiveItems();
+    if (items.length < 2) return;
+
+    const upcoming = [];
+    let index = getCurrentIndex();
+
+    while (upcoming.length < Math.min(3, items.length - 1)) {
+        index = shuffleEnabled
+            ? Math.floor(Math.random() * items.length)
+            : (index + 1) % items.length;
+
+        if (index !== getCurrentIndex() && !upcoming.includes(index)) {
+            upcoming.push(index);
+        }
+    }
+
+    upcoming.forEach((itemIndex) => {
+        const item = items[itemIndex];
+        const element = document.createElement("div");
+        element.className = "queue-item";
+        element.textContent = item.title;
+
+        const artist = document.createElement("span");
+        artist.textContent = item.artist;
+        element.appendChild(artist);
+        upNextElement.appendChild(element);
+    });
+    upcomingIndexes = upcoming;
+}
+
+function updateQueueDisplays() {
+    updateUpNext();
+    updateRecentlyPlayed();
+}
+
+function getRandomIndex(length, currentIndex) {
+    if (length < 2) return currentIndex;
+
+    let nextIndex = currentIndex;
+    while (nextIndex === currentIndex) {
+        nextIndex = Math.floor(Math.random() * length);
+    }
+    return nextIndex;
+}
+
+shuffleButton.addEventListener("click", () => {
+    shuffleEnabled = !shuffleEnabled;
+    shuffleButton.classList.toggle("active", shuffleEnabled);
+    shuffleButton.setAttribute("aria-pressed", shuffleEnabled);
+    updateUpNext();
+});
+
+repeatButton.addEventListener("click", () => {
+    repeatEnabled = !repeatEnabled;
+    repeatButton.classList.toggle("active", repeatEnabled);
+    repeatButton.setAttribute("aria-pressed", repeatEnabled);
+});
 
 // ============================================
 // LOAD SONG
@@ -208,6 +321,7 @@ function playSong() {
 
     cover.style.backgroundImage =
         `url("${song.cover}")`;
+    recordRecentlyPlayed(song);
 
     audio.play()
         .then(() => {
@@ -308,6 +422,8 @@ function playPodcast() {
     }
 
     audio.src = encodeAudioPath(podcast.audio);
+    recordRecentlyPlayed(podcast);
+    updateUpNext();
 
     audio.play()
         .then(() => {
@@ -353,6 +469,7 @@ function switchChannel(channelName) {
     }
 
     updateChannelButtons();
+    updateQueueDisplays();
 
 }
 
@@ -422,6 +539,12 @@ playButton.addEventListener("click", () => {
 
 audio.addEventListener("ended", () => {
 
+    if (repeatEnabled) {
+        audio.currentTime = 0;
+        audio.play();
+        return;
+    }
+
     if (currentChannel === "podcast") {
 
         playNextPodcast();
@@ -459,7 +582,11 @@ audio.addEventListener("ended", () => {
 
 function playNextSong() {
 
-    currentSong++;
+    currentSong = shuffleEnabled && upcomingIndexes.length
+        ? upcomingIndexes[0]
+        : shuffleEnabled
+            ? getRandomIndex(songs.length, currentSong)
+        : currentSong + 1;
 
     if (currentSong >= songs.length) {
 
@@ -478,7 +605,11 @@ function playNextSong() {
 
 function playNextPodcast() {
 
-    currentPodcastIndex++;
+    currentPodcastIndex = shuffleEnabled && upcomingIndexes.length
+        ? upcomingIndexes[0]
+        : shuffleEnabled
+            ? getRandomIndex(podcasts.length, currentPodcastIndex)
+        : currentPodcastIndex + 1;
 
     if (currentPodcastIndex >= podcasts.length) {
 
@@ -679,6 +810,8 @@ function updatePlaylist() {
 
     });
 
+    updateUpNext();
+
 }
 
 // ============================================
@@ -688,3 +821,4 @@ function updatePlaylist() {
 audio.volume = 0.9;
 updateChannelButtons();
 loadSong(0);
+updateQueueDisplays();
