@@ -85,6 +85,13 @@ const songs = [
         artist: "Frank Ocean",
         audio: "audio/frank_ocean_ivy_mp3_72943.mp3",
         cover: "covers/frank_ocean.jpg"
+    },
+
+    {
+        title:"Sing About Me, Im Dying Of Thrist",
+        artist: "Kendrick Lamer",
+        audio: "audio/110-kendrick_lamar-sing_about_me_im_dying_of_thirst.mp3",
+        cover: "covers/sing about me.png"
     }
 ];
 
