@@ -28,6 +28,10 @@ const repeatButton = document.getElementById("repeat");
 const upNextElement = document.getElementById("upNext");
 const recentlyPlayedElement = document.getElementById("recentlyPlayed");
 
+function updateAmbientAnimation(isPlaying) {
+    document.body.classList.toggle("is-playing", isPlaying);
+}
+
 // ============================================
 // MUSIC
 // ============================================
@@ -710,6 +714,18 @@ audio.addEventListener("timeupdate", () => {
 
 });
 
+audio.addEventListener("play", () => {
+    updateAmbientAnimation(true);
+});
+
+audio.addEventListener("pause", () => {
+    updateAmbientAnimation(false);
+});
+
+audio.addEventListener("ended", () => {
+    updateAmbientAnimation(false);
+});
+
 progress.addEventListener("input", () => {
 
     audio.currentTime = progress.value;
@@ -819,6 +835,7 @@ function updatePlaylist() {
 // ============================================
 
 audio.volume = 0.9;
+updateAmbientAnimation(false);
 updateChannelButtons();
 loadSong(0);
 updateQueueDisplays();

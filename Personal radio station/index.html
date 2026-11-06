@@ -7,46 +7,64 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="radio">
-        <h1>MY RADIO</h1>
-        <div class="channels">
-            <button class="channel active" data-channel="music">Music</button>
-            <button class="channel" data-channel="podcast">Podcast</button>
+    <div class="ambient-background" aria-hidden="true">
+        <div class="ambient-orb orb-one"></div>
+        <div class="ambient-orb orb-two"></div>
+        <div class="ambient-orb orb-three"></div>
+        <div class="sound-wave">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-        <div class="now-playing">
-            <div class="cover"></div>
-            <h2 id="songTitle">Song 1</h2>
-            <p id="songArtist">My Radio</p>
-        </div>
-        <div class="progress-container">
-            <span id="currentTime">0:00</span>
-            <input type="range" id="progress" min="0" value="0" step="0.1">
-            <span id="duration">0:00</span>
-        </div>
+    </div>
+    <div class="radio-layout">
+        <div class="radio">
+            <h1>MY RADIO</h1>
+            <div class="channels">
+                <button class="channel active" data-channel="music">Music</button>
+                <button class="channel" data-channel="podcast">Podcast</button>
+            </div>
+            <div class="now-playing">
+                <div class="cover"></div>
+                <h2 id="songTitle">Song 1</h2>
+                <p id="songArtist">My Radio</p>
+            </div>
+            <div class="progress-container">
+                <span id="currentTime">0:00</span>
+                <input type="range" id="progress" min="0" value="0" step="0.1">
+                <span id="duration">0:00</span>
+            </div>
 
-        <div class="controls">
-            <button id="previous" type="button" aria-label="Previous track"><img src="images/rewind-button.png" alt=""></button>
-            <button id="play" type="button" aria-label="Play or pause"><img src="images/play-button.png" alt=""></button>
-            <button id="next" type="button" aria-label="Next track"><img src="images/forward-button.png" alt=""></button>
-        </div>
+            <div class="controls">
+                <button id="previous" type="button" aria-label="Previous track"><img src="images/rewind-button.png" alt=""></button>
+                <button id="play" type="button" aria-label="Play or pause"><img src="images/play-button.png" alt=""></button>
+                <button id="next" type="button" aria-label="Next track"><img src="images/forward-button.png" alt=""></button>
+            </div>
 
-        <div class="playback-options">
-            <button id="shuffle" type="button" aria-pressed="false">Shuffle</button>
-            <button id="repeat" type="button" aria-pressed="false">Repeat</button>
-        </div>
+            <div class="playback-options">
+                <button id="shuffle" type="button" aria-pressed="false">Shuffle</button>
+                <button id="repeat" type="button" aria-pressed="false">Repeat</button>
+            </div>
 
-        <div class="volume">
-            <img src="images/volume.png" alt="Volume">
-            <input type="range" id="volume" aria-label="Volume" min="0" max="1" value="0.7" step="0.01">
-        </div>
+            <div class="volume">
+                <img src="images/volume.png" alt="Volume">
+                <input type="range" id="volume" aria-label="Volume" min="0" max="1" value="0.7" step="0.01">
+            </div>
 
-        <h3>Up next</h3>
-        <div id="upNext"></div>
-        <h3>Playlist</h3>
-        <div id="playlist"></div>
-        <h3>Recently played</h3>
-        <div id="recentlyPlayed"></div>
-        <audio id="audio"></audio>
+            <h3>Up next</h3>
+            <div id="upNext"></div>
+            <audio id="audio"></audio>
+        </div>
+        <div class="queue-sidebar">
+            <h3>Playlist</h3>
+            <div id="playlist"></div>
+            <h3>Recently played</h3>
+            <div id="recentlyPlayed"></div>
+        </div>
     </div>
     <script src="javascript.js"></script>
 </body>
